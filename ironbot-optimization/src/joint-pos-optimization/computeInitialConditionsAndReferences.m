@@ -1,16 +1,20 @@
-function uInit = computeInitialConditions(w_H_b,jointPos,jetIntensities)
+function [uInit, uDes] = computeInitialConditionsAndReferences(w_H_b,jointPos,jetIntensities)
 
-    % COMPUTEINITIALCONDITIONS calculates the initial conditions for the
-    %                          nonlinear optimization solver.
+    % COMPUTEINITIALCONDITIONSANDREFERENCES calculates the initial conditions
+    %                                       and references for the nonlinear 
+    %                                       optimization solver.
     %
-    % FORMAT:  uInit = computeInitialConditions(w_H_b,jointPos,jetIntensities)
+    % FORMAT:  [uInit, uDes] = computeInitialConditionsAndReferences(w_H_b,jointPos,jetIntensities)
     %
     % INPUTS:  - w_H_b: [4 x 4] from world to base transformation matrix;
     %          - jointPos: [ndof x 1] joint positions;
     %          - jetIntesities: [njets x 1] jets thrust forces magnitude;
     %    
     % OUTPUTS: - uInit: [6+ndof+njets x 1] initial conditions for the
-    %                   optimization procedure.
+    %                   optimization procedure;
+    %
+    %          - uDes: [6+ndof+njets x 1] references for the
+    %                  optimization procedure.
     %
     % Author : Gabriele Nava (gabriele.nava@iit.it)
     % Genova, Dec 2018
@@ -32,4 +36,7 @@ function uInit = computeInitialConditions(w_H_b,jointPos,jetIntensities)
     
     % initial conditions for the optimization problem
     uInit = [basePos; rollPitchYaw; jointPos; jetIntensities];
+    
+    % references
+    uDes  = uInit;
 end

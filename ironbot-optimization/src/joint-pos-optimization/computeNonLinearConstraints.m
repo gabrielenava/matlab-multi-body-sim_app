@@ -1,14 +1,13 @@
-function [c,ceq] = computeNonLinearConstraints(u,KinDynModel,fixedLinkFrame_gravAcc,TurbinesData,w_H_lFootInit,w_H_rFootInit)
+function [c,ceq] = computeNonLinearConstraints(u,KinDynModel,gravAcc,TurbinesData,w_H_lFootInit,w_H_rFootInit)
 
     % COMPUTENONLINEARCONSTRAINTS computes the nonlinear constraints for the
     %                             joints position optimization.
     %
-    % FORMAT:  [c,ceq] = computeNonLinearConstraints(u,KinDynModel,fixedLinkFrame_gravAcc,TurbinesData,w_H_lFootInit,w_H_rFootInit)
+    % FORMAT:  [c,ceq] = computeNonLinearConstraints(u,KinDynModel,gravAcc,TurbinesData,w_H_lFootInit,w_H_rFootInit)
     %
     % INPUTS:  - u: [6+ndof+njets x 1] optimization variable;
-    %          - KinDynModel: a structure containing the loaded model and additional info.
-    %          - fixedLinkFrame_gravAcc:[3 x 1] vector representing the gravity 
-    %                                    acceleration in the inertial frame;
+    %          - KinDynModel: a structure containing the loaded model and additional info;
+    %          - gravAcc:[3 x 1] vector of the gravity acceleration in the inertial frame;
     %          - TurbinesData: [struct] turbines specifications:
     %
     %                          REQUIRED FIELDS:
@@ -45,7 +44,7 @@ function [c,ceq] = computeNonLinearConstraints(u,KinDynModel,fixedLinkFrame_grav
              0   0   0  1];
     
     % set the current model state
-    idyn_setRobotState(KinDynModel, w_H_b, jointPos, zeros(6,1), zeros(ndof,1), fixedLinkFrame_gravAcc);
+    idyn_setRobotState(KinDynModel, w_H_b, jointPos, zeros(6,1), zeros(ndof,1), gravAcc);
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%% FixedLinks constraints %%%%%%%%%%%%%%%%%%%%%%%%
@@ -70,8 +69,8 @@ function [c,ceq] = computeNonLinearConstraints(u,KinDynModel,fixedLinkFrame_grav
     constraintsLfoot       = [(w_H_lFoot(1:3,4)-w_H_lFootInit(1:3,4));(rollPitchYaw_Lfoot-rollPitchYaw_LfootInit)];
     constraintsRfoot       = [(w_H_rFoot(1:3,4)-w_H_rFootInit(1:3,4));(rollPitchYaw_Rfoot-rollPitchYaw_RfootInit)];
     
-    % compute the nonlinear constraints as INEQUALITY constraints. They are actually
-    % equality constraints with a tolerance
+    % compute the nonlinear constraints as INEQUALITY constraints. They are 
+    % actually equality constraints with a tolerance
     tolerance = 0.001;
     c         = abs([constraintsLfoot; constraintsRfoot])-tolerance;
 end

@@ -1,13 +1,12 @@
-function LDot = computeMomentumDerivative(u,KinDynModel,fixedLinkFrame_gravAcc,TurbinesData)
+function LDot = computeMomentumDerivative(u,KinDynModel,gravAcc,TurbinesData)
 
     % COMPUTEMOMENTUMDERIVATIVE computes the centroidal momentum derivative.
     %
-    % FORMAT:  LDot = computeMomentumDerivative(u,KinDynModel,fixedLinkFrame_gravAcc,TurbinesData)
+    % FORMAT:  LDot = computeMomentumDerivative(u,KinDynModel,gravAcc,TurbinesData)
     %
     % INPUTS:  - u: [6+ndof+njets x 1] optimization variable;
-    %          - KinDynModel: a structure containing the loaded model and additional info.
-    %          - fixedLinkFrame_gravAcc: [3 x 1] vector representing the gravity 
-    %                                    acceleration in the inertial frame;
+    %          - KinDynModel: a structure containing the loaded model and additional info;
+    %          - gravAcc: [3 x 1] vector of the gravity acceleration in the inertial frame;
     %          - TurbinesData: [struct] turbines specifications:
     %
     %                          REQUIRED FIELDS:
@@ -37,12 +36,12 @@ function LDot = computeMomentumDerivative(u,KinDynModel,fixedLinkFrame_gravAcc,T
              0   0   0  1];
     
     % set the current model state
-    idyn_setRobotState(KinDynModel, w_H_b, jointPos, zeros(6,1), zeros(ndof,1), fixedLinkFrame_gravAcc);
+    idyn_setRobotState(KinDynModel, w_H_b, jointPos, zeros(6,1), zeros(ndof,1), gravAcc);
     
     % total mass of the system and gravity forces
     M       = idyn_getFreeFloatingMassMatrix(KinDynModel);
     m       = M(1,1);
-    mg      = m*fixedLinkFrame_gravAcc; 
+    mg      = m*gravAcc; 
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%% Momentum derivative %%%%%%%%%%%%%%%%%%%%%%%%%

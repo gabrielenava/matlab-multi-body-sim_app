@@ -15,10 +15,6 @@ function chiDot = forwardDynamicsGravityComp(t,chi,KinDynModel,Config)
     %                                      - initGravComp: [struct];
     %                                      - integration: [struct];
     %
-    %                            For more information on the required fields inside
-    %                            each structure, refer to the description of the
-    %                            functions in the "core" folder.
-    %
     % FORMAT:  chiDot = forwardDynamicsGravityComp(t,chi,KinDynModel,Config);
     %
     % INPUTS:  - t: current integration time step;

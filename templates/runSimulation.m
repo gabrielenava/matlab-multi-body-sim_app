@@ -1,12 +1,12 @@
 % RUNSIMULATION this script configures user-defined options for running a
 %               specific simulation.
 %
-%                 REQUIRED VARIABLES:
+%               REQUIRED VARIABLES:
 %
-%                 - Config: [struct] with fields:
+%               - Config: [struct] with fields:
 %
-%                           - Simulator: [struct]; (created here)
-%                           - Model: [struct];
+%                         - Simulator: [struct]; (created here)
+%                         - Model: [struct];
 %
 % Author: Gabriele Nava (gabriele.nava@iit.it)
 % Genova, Nov 2018

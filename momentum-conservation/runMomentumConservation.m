@@ -1,26 +1,27 @@
-% RUNSIMULATION starts all the simulations related to the ironBot
-%               optimization. TO BE PORTED in Loc2 organization.
+% RUNMOMENTUMCONSERVATION starts the momentum conservation demo. It is a
+%                         way to analyze if and how it is possible to influence 
+%                         the system's momentum by means of the joint velocities.
 %
-%               REQUIRED VARIABLES:
+%                         REQUIRED VARIABLES:
 %
-%               - Config: [struct] with fields:
+%                         - Config: [struct] with fields:
 %
-%                         - Simulator: [struct]; (created here)
-%                         - Model: [struct];
+%                                   - Simulator: [struct]; (created here)
+%                                   - Model: [struct];
 %
 % Author: Gabriele Nava (gabriele.nava@iit.it)
-% Genova, Nov 2018
+% Genova, Dec 2018
     
 %% ------------Initialization----------------
 clear variables
 close('all','hidden')
 clc
 
-fprintf('\n###############################\n');
-fprintf('\nironBot optimization simulation\n');
-fprintf('\n###############################\n\n');
+fprintf('\n##########################\n');
+fprintf('\nMomentum conservation demo\n');
+fprintf('\n##########################\n\n');
 
-disp('[runSimulation]: loading simulation setup...')
+disp('[runMomentumConservation]: loading simulation setup...')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%% USER DEFINED SIMULATION SETUP %%%%%%%%%%%%%%%%%%%%%%%%
@@ -29,14 +30,16 @@ disp('[runSimulation]: loading simulation setup...')
 % TODO: create a static GUI with multiple selections instead of this manual
 %       selection
 
-% decide either to run the default simulation or to use the GUI to select it
-Config.Simulator.runDefaultSimulation   = false;
+% decide either to load the default model or to use the GUI to select it
+Config.Simulator.useDefaultModel        = false; 
  
 % show a simulation of the system and data plotting (only if available)
 Config.Simulator.showVisualizer         = true;
 Config.Simulator.showSimulationResults  = true;
 
-% save data and/or pictures of the simulation (only if available)
+% save data and/or activate the option for creating a video of the simulation
+% and for saving pictures (only if available)
+Config.Simulator.activateVideoMenu      = true;
 Config.Simulator.saveSimulationResults  = false;
 Config.Simulator.savePictures           = false;
 
@@ -44,12 +47,12 @@ Config.Simulator.savePictures           = false;
 Config.Simulator.wrappersDebugMode      = false;
 
 % name of the folder that contains the default model
-Config.Simulator.defaultModelFolderName = 'ironBot';
+Config.Simulator.defaultModelFolderName = 'icubGazeboSim';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-disp('[runSimulation]: ready to start.')
+disp('[runMomentumConservation]: ready to start.')
 
 % create a unique tag to identify the current simulation data, pictures and 
 % video. The tag is the current hour and minute
@@ -72,19 +75,23 @@ addpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/wrappers']))
 
 % add path to the "external" sources
 addpath(genpath([Config.Simulator.LocalPaths.pathToExternal,'/FEX-function_handle']))
-addpath(genpath([Config.Simulator.LocalPaths.pathToExternal,'/FEX-minimize']))
 
-% add path to common functions
-addpath(genpath('./src/common-functions'));
+% create a list of all the folders containing the available models
+Config.Simulator.modelFoldersList = getFoldersList('app');
 
-% only model available: ironBot
-Config.Simulator.modelFolderName = Config.Simulator.defaultModelFolderName;
+if isempty(Config.Simulator.modelFoldersList)
+    
+    error('[runMomentumConservation]: no model folders found.');
+else
+    % open the GUI for selecting the model or select the default model
+    Config.Simulator.modelFolderName = openModelMenu(Config.Simulator);
+end
 
 if ~isempty(Config.Simulator.modelFolderName)
 
-    disp(['[runSimulation]: loading the model: ', Config.Simulator.modelFolderName])
+    disp(['[runMomentumConservation]: loading the model: ', Config.Simulator.modelFolderName])
     
-     % add the path to the urdf model and meshes, assuming your model is among
+    % add the path to the urdf model and meshes, assuming your model is among
     % the ones available in the folder pointed by "Config.Simulator.LocalPaths.pathToModels"
     addpath(genpath([Config.Simulator.LocalPaths.pathToModels,'/models/', Config.Simulator.modelFolderName]));
     
@@ -99,33 +106,16 @@ if ~isempty(Config.Simulator.modelFolderName)
         Config.Simulator.showVisualizer = false;
     end
     
-    % open the menu for selecting the simulation
-    [Config.Simulator.demoFolderName, Config.Simulator.demoScriptName] = openSimulationMenu(Config.Model, Config.Simulator);
+    % add path to simulation-specific sources
+    addpath('./src');
     
-    if ~isempty(Config.Simulator.demoScriptName)
+    % run the simulation
+    gravCompHandle = function_handle('./src/momentumConservation.m');
+    gravCompHandle(); 
     
-        disp(['[runSimulation]: running ', Config.Simulator.demoScriptName, ' demo.'])
-        
-        % the demo script may not have an associated folder (not recommended)
-        if ~isempty(Config.Simulator.demoFolderName)  
-            
-            % add the path to the simulations folder
-            addpath(['./src/', Config.Simulator.demoFolderName])
-        end
-        
-        % run the simulation
-        simulationHandle = function_handle(['./src/', Config.Simulator.demoFolderName, '/', Config.Simulator.demoScriptName]);
-        simulationHandle();
-        
-        % remove model path
-        rmpath(genpath([Config.Simulator.LocalPaths.pathToModels,'/models/', Config.Simulator.modelFolderName]));
-        
-        if ~isempty(Config.Simulator.demoFolderName)  
-            
-            % remove the path to the simulations folder
-            rmpath(['./src/', Config.Simulator.demoFolderName])
-        end       
-    end
+    % remove simulation and models paths
+    rmpath('./src');
+    rmpath(genpath([Config.Simulator.LocalPaths.pathToModels,'/models/', Config.Simulator.modelFolderName]));
     
     % delete the temporary model and folder
     delete([Config.Model.modelPath, Config.Model.modelName]);
@@ -140,7 +130,5 @@ rmpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/core-functions']))
 rmpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/utility-functions']))
 rmpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/wrappers']))
 rmpath(genpath([Config.Simulator.LocalPaths.pathToExternal,'/FEX-function_handle']))
-rmpath(genpath([Config.Simulator.LocalPaths.pathToExternal,'/FEX-minimize']))
-rmpath(genpath('./src/common-functions'));
 
-disp('[runSimulation]: simulation ended.') 
+disp('[runMomentumConservation]: simulation ended.') 

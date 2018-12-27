@@ -1,12 +1,12 @@
 % INIT_ROBOT_NAME initializes the reduced model. NOTE: the reduced model is NOT 
 %                 jet loaded. This file just contains the model configuration.
 %
-%                REQUIRED VARIABLES:
+%                 REQUIRED VARIABLES:
 %
-%                - Config: [struct] with fields:
+%                 - Config: [struct] with fields:
 %
-%                          - Simulator: [struct];
-%                          - Model: [struct]; (created here)
+%                           - Simulator: [struct];
+%                           - Model: [struct]; (created here)
 %
 % Author: Gabriele Nava (gabriele.nava@iit.it)
 % Genova, Nov 2018

@@ -14,7 +14,7 @@
 %% ------------Initialization----------------
 
 % specify the list of joints that are going to be considered in the reduced model
-Config.Model.jointList = {'torso_pitch','torso_roll','torso_yaw', ...
+Config.Model.jointList = {'torso_pitch','torso_roll','torso_yaw',...
                           'l_shoulder_pitch','l_shoulder_roll','l_shoulder_yaw','l_elbow','l_wrist_prosup', ...
                           'r_shoulder_pitch','r_shoulder_roll','r_shoulder_yaw','r_elbow','r_wrist_prosup', ...
                           'l_hip_pitch','l_hip_roll','l_hip_yaw','l_knee','l_ankle_pitch','l_ankle_roll', ...
@@ -36,7 +36,7 @@ Config.Model.baseLinkName = 'root_link';
 Config.Model.modelName = 'modelTEMP.urdf';
 Config.Model.modelPath = './TEMP/';
 
-% generate the temporary model
+% generate the temporary model. ironBot uses part of the meshes of iCubGazeboV2_5
 if ~exist('TEMP','dir')
     mkdir('TEMP');
 end
@@ -48,7 +48,7 @@ originalModelName   = 'model.urdf';
 originalPathString  = 'ABSOLUTE_PATH_TO_MESHES';
 editUrdfModel(pathToOriginalModel, originalModelName, Config.Model.modelPath, ...
               Config.Model.modelName, originalPathString, [pathToOriginalModel,'meshes']);
-
+          
 % specify if the iDyntree simulator is available for this model. It may not
 % be available e.g. in case meshes are required to visualize the model links, 
 % and the ones available are not of the proper format (.dae)

@@ -25,7 +25,7 @@ Config.Model.baseLinkName = 'root_link';
 
 % model name and path to the urdf file. At the moment, the iDyntree visualizer 
 % requires to specify inside the urdf model the absolute path from the script
-% running the visualizer to the meshes. This reuqire to hard-code local paths 
+% running the visualizer to the meshes. This requires to hard-code local paths 
 % inside the urdf model.
 %
 % WORKAROUND: a temporary model "modelTEMP.urdf" is created. It is a
@@ -42,16 +42,12 @@ if ~exist('TEMP','dir')
 end
 
 pathToOriginalModel = [Config.Simulator.LocalPaths.pathToModels,'/models/', Config.Simulator.modelFolderName,'/'];
-pathToV2_5Model     = [Config.Simulator.LocalPaths.pathToModels,'/models/iCubGazeboV2_5/'];
 originalModelName   = 'model.urdf';
 
 % tag to substitute with the local path, and new path
-originalPathString_iCubV2_5 = 'ABSOLUTE_PATH_TO_MESHES';
-originalPathString_ironBot  = 'ABSOLUTE_PATH_TO_TURBINES_MESHES';
+originalPathString  = 'ABSOLUTE_PATH_TO_MESHES';
 editUrdfModel(pathToOriginalModel, originalModelName, Config.Model.modelPath, ...
-              Config.Model.modelName, originalPathString_iCubV2_5, [pathToV2_5Model,'meshes']);
-editUrdfModel(Config.Model.modelPath, Config.Model.modelName, Config.Model.modelPath, ...
-              Config.Model.modelName, originalPathString_ironBot, [pathToOriginalModel,'meshes']);
+              Config.Model.modelName, originalPathString, [pathToOriginalModel,'meshes']);
           
 % specify if the iDyntree simulator is available for this model. It may not
 % be available e.g. in case meshes are required to visualize the model links, 

@@ -31,6 +31,7 @@ This repository can be used in two different ways:
 
 - [gravity-compensation](gravity-compensation)
 - [ironbot-optimization](ironbot-optimization)
+- [momentum-conservation](momentum-conservation)
 
 ## Mantainer
 
