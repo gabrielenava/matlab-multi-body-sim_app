@@ -24,11 +24,11 @@
 run(strcat(['./app/',Config.Simulator.modelFolderName,'/initMomentumConservation.m']));
 
 % load the reduced model
-KinDynModel = idyn_loadReducedModel(Config.Model.jointList,Config.Model.baseLinkName,Config.Model.modelPath, ...
+KinDynModel = iDynTreeWrappers.loadReducedModel(Config.Model.jointList,Config.Model.baseLinkName,Config.Model.modelPath, ...
                                     Config.Model.modelName,Config.Simulator.wrappersDebugMode); 
 
 % set the initial robot state 
-idyn_setRobotState(KinDynModel, Config.initMomCons.w_H_b_init, Config.initMomCons.jointPos_init, ...
+iDynTreeWrappers.setRobotState(KinDynModel, Config.initMomCons.w_H_b_init, Config.initMomCons.jointPos_init, ...
                    Config.initMomCons.baseVel_init, Config.initMomCons.jointVel_init, Config.initMomCons.gravityAcc)
  
 % create the initial state vector. For momentum conservation, chi = [basePose; jointPos]

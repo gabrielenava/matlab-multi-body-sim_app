@@ -24,11 +24,11 @@
 run(strcat(['./app/',Config.Simulator.modelFolderName,'/initGravityCompensation.m']));
 
 % load the reduced model
-KinDynModel = idyn_loadReducedModel(Config.Model.jointList,Config.Model.baseLinkName,Config.Model.modelPath, ...
+KinDynModel = iDynTreeWrappers.loadReducedModel(Config.Model.jointList,Config.Model.baseLinkName,Config.Model.modelPath, ...
                                     Config.Model.modelName,Config.Simulator.wrappersDebugMode); 
 
 % set the initial robot state 
-idyn_setRobotState(KinDynModel,Config.initGravComp.jointPos_init,Config.initGravComp.jointVel_init,Config.initGravComp.gravityAcc)
+iDynTreeWrappers.setRobotState(KinDynModel,Config.initGravComp.jointPos_init,Config.initGravComp.jointVel_init,Config.initGravComp.gravityAcc)
  
 % create the initial state vector. For gravity compensation, chi = [jointVel; jointPos]
 chi_init = [Config.initGravComp.jointVel_init; Config.initGravComp.jointPos_init];

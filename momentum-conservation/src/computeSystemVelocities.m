@@ -35,7 +35,7 @@ function chiDot = computeSystemVelocities(t,chi,KinDynModel,Config)
     end
     
     % demux the system state
-    [basePose_qt,jointPos] = vectorDemux(chi,[7,KinDynModel.NDOF]);
+    [basePose_qt,jointPos] = wbc.vectorDemux(chi,[7,KinDynModel.NDOF]);
 
     % convert the base transform from quaternion to transf. matrix
     w_H_b = fromPosQuatToTransfMatr(basePose_qt);
@@ -43,13 +43,13 @@ function chiDot = computeSystemVelocities(t,chi,KinDynModel,Config)
     % update the current system state. All the required dynamics and
     % kinematics quantities do not depend on the base and joints
     % velocities, therefore it shouldn't matter if they are set to zero       
-    idyn_setRobotState(KinDynModel, w_H_b, jointPos, zeros(6,1), zeros(KinDynModel.NDOF,1), ... 
+    iDynTreeWrappers.setRobotState(KinDynModel, w_H_b, jointPos, zeros(6,1), zeros(KinDynModel.NDOF,1), ... 
                        Config.initMomCons.gravityAcc);
     
     % get the required dynamics and kinematics quantities
-    M            = idyn_getFreeFloatingMassMatrix(KinDynModel);
-    xCoM         = idyn_getCenterOfMassPosition(KinDynModel);
-    w_H_b        = idyn_getWorldBaseTransform(KinDynModel);
+    M            = iDynTreeWrappers.getFreeFloatingMassMatrix(KinDynModel);
+    xCoM         = iDynTreeWrappers.getCenterOfMassPosition(KinDynModel);
+    w_H_b        = iDynTreeWrappers.getWorldBaseTransform(KinDynModel);
     xBase        = w_H_b(1:3,4);
     
     % compute the measured base velocities, exploiting the momentum

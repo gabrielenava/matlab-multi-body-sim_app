@@ -36,21 +36,21 @@ function chiDot = forwardDynamicsGravityComp(t,chi,KinDynModel,Config)
     end
     
     % demux the system state
-    [jointVel,jointPos] = vectorDemux(chi,[KinDynModel.NDOF,KinDynModel.NDOF]);
+    [jointVel,jointPos] = wbc.vectorDemux(chi,[KinDynModel.NDOF,KinDynModel.NDOF]);
 
     % update the current system state
-    idyn_setRobotState(KinDynModel,jointPos,jointVel,Config.initGravComp.gravityAcc);
+    iDynTreeWrappers.setRobotState(KinDynModel,jointPos,jointVel,Config.initGravComp.gravityAcc);
     
     % evaluate the system's dynamics
-    M          = idyn_getFreeFloatingMassMatrix(KinDynModel);
-    biasForces = idyn_generalizedBiasForces(KinDynModel); 
+    M          = iDynTreeWrappers.getFreeFloatingMassMatrix(KinDynModel);
+    biasForces = iDynTreeWrappers.generalizedBiasForces(KinDynModel); 
     
     % select only the rows corresponding to the joint space dynamics
     Ms         = M(7:end,7:end);
     hs         = biasForces(7:end);
     
     % select the joint torques as the gravity torques
-    tau        = idyn_generalizedGravityForces(KinDynModel); 
+    tau        = iDynTreeWrappers.generalizedGravityForces(KinDynModel); 
     tau        = tau(7:end);
     
     % compute the joints accelerations

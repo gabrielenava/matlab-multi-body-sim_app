@@ -77,7 +77,7 @@ else
             initModelHandle();
     
             % load the reduced model (it cannot be properly stored in MAT files)
-            KinDynModel = idyn_loadReducedModel(Config.Model.jointList,Config.Model.baseLinkName,Config.Model.modelPath, ...
+            KinDynModel = iDynTreeWrappers.loadReducedModel(Config.Model.jointList,Config.Model.baseLinkName,Config.Model.modelPath, ...
                                                 Config.Model.modelName,Config.Simulator.wrappersDebugMode);
     
             if Config.Simulator.showSimulationResults || Config.Simulator.showVisualizer
