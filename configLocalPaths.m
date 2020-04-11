@@ -25,7 +25,7 @@ function LocalPaths = configLocalPaths()
     % path will be empty.
     currentPath      = pwd;
     splitCurrentPath = strsplit(currentPath,'/');
-    isSuperbuild     = strcmp(splitCurrentPath,'matlab-multi-body-sim_superbuild');
+    isSuperbuild     = strcmp(splitCurrentPath,'mbs_superbuild');
     
     % loop to create the path to the superbuild "install" folder
     LocalPaths.pathToSuperbuildInstall = '';
