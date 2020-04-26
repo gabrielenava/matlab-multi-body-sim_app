@@ -63,7 +63,7 @@ rmpath('../config/')
 addpath(genpath([Config.Simulator.LocalPaths.pathToExternal,'/FEX-function_handle']))
 
 % create a list of all the folders containing the available models
-Config.Simulator.modelFoldersList = getFoldersList('app');
+Config.Simulator.modelFoldersList = mbs.getFoldersList('app');
 
 if isempty(Config.Simulator.modelFoldersList)
     
