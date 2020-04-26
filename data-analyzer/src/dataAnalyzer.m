@@ -37,4 +37,4 @@ jointPos = jointPos(1:playback_frameRate:end,:);
 w_H_b    = w_H_b(:,1:playback_frameRate:end);
 time     = time(1:playback_frameRate:end);
 
-runVisualizer(jointPos',w_H_b,time,Config.Simulator.createVideo,KinDynModel,Config.iDyntreeVisualizer,Config.Simulator)      
+mbs.runVisualizer(jointPos',w_H_b,time,Config.Simulator.createVideo,KinDynModel,Config.iDyntreeVisualizer,Config.Simulator)      

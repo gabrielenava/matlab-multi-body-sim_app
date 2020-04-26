@@ -23,8 +23,8 @@ clc
 showSimulationResults = true;
 
 % if TRUE, the simulation video and pics are saved again
-saveSimulationPics    = false;
-saveSimulationVideo   = false;
+saveSimulationPics    = true;
+saveSimulationVideo   = true;
 
 % MAT files are expected to be stored in the 'DATA' folder
 if ~exist('./DATA','dir')
@@ -49,25 +49,22 @@ else
         load(['./DATA/',expList{expNumber}]);
         
         % set savePictures and activateVideoMenu FALSE by default
-        Config.Simulator.savePictures = false;
+        Config.Simulator.savePictures      = false;
         Config.Simulator.activateVideoMenu = false;
         
         if saveSimulationPics
             
-            Config.Simulator.savePictures = true; %#ok<UNRCH>
+            Config.Simulator.savePictures = true;
         end
         if saveSimulationVideo
             
-            Config.Simulator.activateVideoMenu = true; %#ok<UNRCH>
+            Config.Simulator.activateVideoMenu = true; 
         end
             
         % show results (if available)
         if showSimulationResults
 
             % add required paths
-            addpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/core-functions']))
-            addpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/utility-functions']))
-            addpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/wrappers']))
             addpath(genpath([Config.Simulator.LocalPaths.pathToExternal,'/FEX-function_handle']))
             addpath(genpath([Config.Simulator.LocalPaths.pathToModels,'/models/', Config.Simulator.modelFolderName]));
             addpath('./src');
@@ -83,14 +80,11 @@ else
             if Config.Simulator.showSimulationResults || Config.Simulator.showVisualizer
                 
                 % open the visualization menu
-                openVisualizationMenu(KinDynModel,Config.Visualization,Config.iDyntreeVisualizer, ...
-                                      Config.Simulator,Config.SimulationOutput,Config.Simulator.showSimulationResults,Config.Simulator.showVisualizer);
+                mbs.openVisualizationMenu(KinDynModel,Config.Visualization,Config.iDyntreeVisualizer, ...
+                                          Config.Simulator,Config.SimulationOutput,Config.Simulator.showSimulationResults,Config.Simulator.showVisualizer);
             end
  
             % remove paths
-            rmpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/core-functions']))
-            rmpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/utility-functions']))
-            rmpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/wrappers']))
             rmpath(genpath([Config.Simulator.LocalPaths.pathToExternal,'/FEX-function_handle']))
             rmpath(genpath([Config.Simulator.LocalPaths.pathToModels,'/models/', Config.Simulator.modelFolderName]));
             rmpath('./src');

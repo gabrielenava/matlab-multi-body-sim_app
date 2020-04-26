@@ -39,7 +39,7 @@ Config.Simulator.showSimulationResults  = true;
 % and for saving pictures (only if available)
 Config.Simulator.activateVideoMenu      = true;
 Config.Simulator.saveSimulationResults  = true;
-Config.Simulator.savePictures           = false;
+Config.Simulator.savePictures           = true;
 
 % activate/deactivate the iDyntree wrappers debug mode
 Config.Simulator.wrappersDebugMode      = false;
@@ -62,27 +62,22 @@ Config.Simulator.savedDataTag = [num2str(c(4)),'_', num2str(c(5))];
 % configure local paths
 % 
 % TODO: find a cleaner way to deal with local paths
-addpath('../')
+addpath('../config')
 Config.Simulator.LocalPaths = configLocalPaths(); 
-rmpath('../')
-
-% add path to the "core" functions
-addpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/core-functions']))
-addpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/utility-functions']))
-addpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/wrappers']))
+rmpath('../config')
 
 % add path to the "external" sources
 addpath(genpath([Config.Simulator.LocalPaths.pathToExternal,'/FEX-function_handle']))
 
 % create a list of all the folders containing the available models
-Config.Simulator.modelFoldersList = getFoldersList('app');
+Config.Simulator.modelFoldersList = mbs.getFoldersList('app');
 
 if isempty(Config.Simulator.modelFoldersList)
     
     error('[runGravityCompensation]: no model folders found.');
 else
     % open the GUI for selecting the model or select the default model
-    Config.Simulator.modelFolderName = openModelMenu(Config.Simulator);
+    Config.Simulator.modelFolderName = mbs.openModelMenu(Config.Simulator);
 end
 
 if ~isempty(Config.Simulator.modelFolderName)
@@ -124,9 +119,6 @@ if ~isempty(Config.Simulator.modelFolderName)
 end
 
 % remove local paths
-rmpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/core-functions']))
-rmpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/utility-functions']))
-rmpath(genpath([Config.Simulator.LocalPaths.pathToCore,'/wrappers']))
 rmpath(genpath([Config.Simulator.LocalPaths.pathToExternal,'/FEX-function_handle']))
 
 disp('[runGravityCompensation]: simulation ended.') 

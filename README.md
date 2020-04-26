@@ -1,6 +1,6 @@
-# matlab-multi-body-sim_app
+# Multi Body Simulator (MBS) App
 
-Multi-body dynamics simulations, optimizations and controllers developed using the `matlab-multi-body-sim` simulator.
+Multi-body dynamics simulations developed using the `multi-body-simulator`.
 
 ## Operating system
 
@@ -8,29 +8,30 @@ The code has been developed and tested on Ubuntu 18.04.
 
 ## Dependencies
 
-- [matlab-multi-body-sim_core](https://github.com/gabrielenava/matlab-multi-body-sim_core), and its dependencies.
+- [mbs_core](https://github.com/gabrielenava/mbs_core), and its dependencies.
 
-- **OPTIONAL:** [matlab_multi-body-sim_models](https://github.com/gabrielenava/matlab-multi-body-sim_models).
+- **OPTIONAL:** [mbs_models](https://github.com/gabrielenava/mbs_models).
+
+- **OPTIONAL:** [whole-body-controllers library](https://github.com/robotology/whole-body-controllers/tree/master/library/matlab-wbc/%2Bwbc).
 
 ## Installation and usage
 
-This repository can be used in two different ways:
+This repository can be installed in two different ways:
 
-- `git clone` or download this repository as standalone repo. In this case, it will be required to manually specify your local paths to the `matlab-multi-body-sim_core` and `matlab-multi-body-sim_models` folders, and to other `external sources` (if there are any). See also the [configLocalPaths](configLocalPaths.m) script.
+- `git clone` or download this repository as standalone repo. In this case, it is required to manually specify your local paths to the `mbs_core` and `mbs_models` folders, and to other `external sources` (if there are any).
 
-- Dowload this repository using the [matlab-multi-body-sim_superbuild](https://github.com/gabrielenava/matlab-multi-body-sim_superbuild) **(suggested)**. In this way, the `superbuild` local paths are automatically loaded. 
+- Download this repository using the [mbs_superbuild](https://github.com/gabrielenava/mbs_superbuild) **(suggested)**. In this way, the local paths are automatically set. **Note**: path to the optional WBC library is not set automatically. 
  
 ## Structure of the repo
 
 ### Tests and guidelines
 
-- [templates](templates): example of how to use the simulator;
 - [test-idyntree-wrappers](test-idyntree-wrappers): test the wrappers of the `iDyntree` library.
 
 ### Available simulations
 
 - [gravity-compensation](gravity-compensation)
-- [momentum-conservation](momentum-conservation)
+- [data-analyzer](data-analyzer)
 
 ## Mantainer
 

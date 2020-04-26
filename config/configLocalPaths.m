@@ -10,7 +10,6 @@ function LocalPaths = configLocalPaths()
     %
     %                       - pathToSuperbuildInstall [string];
     %                       - pathToSuperbuildSources [string];
-    %                       - pathToCore [string];
     %                       - pathToModels [string];
     %                       - pathToExternal [string].
     %
@@ -20,9 +19,7 @@ function LocalPaths = configLocalPaths()
     %% ------------Initialization----------------
     
     % path to the superbuild "install" folder. If you did not installed the
-    % repository through the "matlab-multi-body-sim_superbuild", see also
-    % https://github.com/gabrielenava/matlab-multi-body-sim_superbuild, the
-    % path will be empty.
+    % repository through the "mbs_superbuild", the path will be empty.
     currentPath      = pwd;
     splitCurrentPath = strsplit(currentPath,'/');
     isSuperbuild     = strcmp(splitCurrentPath,'mbs_superbuild');
@@ -56,16 +53,14 @@ function LocalPaths = configLocalPaths()
     end
     
     % if the path to the superbuild install folder is empty, it is required
-    % to manually specify the path to the "matlab-multi-body-sim_core",
-    % "matlab-multi-body-sim_models" and "external" folders. If instead the 
-    % repository has been installed through the superbuild, these paths are 
-    % automatically created.
-    LocalPaths.pathToCore   = LocalPaths.pathToSuperbuildInstall;
+    % to manually specify the path to the "mbs_models" and "external" folders.
+    % If instead the repository has been installed through the superbuild,
+    % these paths are automatically created.
     LocalPaths.pathToModels = LocalPaths.pathToSuperbuildInstall;
     
     if isempty(LocalPaths.pathToSuperbuildInstall)
         
-        warning('[configLocalPaths]: please manually set the path to the "matlab-multi-body-sim_app" and "matlab-multi-body-sim_models" folders.');
+        warning('[configLocalPaths]: please manually set the path to the "mbs_models" folders.');
         
         % USER CAN EDIT HERE
     end
@@ -78,7 +73,7 @@ function LocalPaths = configLocalPaths()
         LocalPaths.pathToExternal = [LocalPaths.pathToSuperbuildSources,'/external'];
     else
         % USER CAN EDIT HERE
-         
+        
         warning('[configLocalPaths]: please manually set the path to the "external" sources (if there is any).');
         LocalPaths.pathToExternal = '';
     end 

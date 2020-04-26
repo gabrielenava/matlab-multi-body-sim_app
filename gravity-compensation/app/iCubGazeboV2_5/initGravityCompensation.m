@@ -66,3 +66,4 @@ Config.iDyntreeVisualizer.w_R_b_fixed              = [-1  0  0;
                                                        0  0  1];
 Config.iDyntreeVisualizer.w_H_b_fixed              = [Config.iDyntreeVisualizer.w_R_b_fixed , [0;0;0.7];
                                                               0        0        0                 1   ];
+                                                          

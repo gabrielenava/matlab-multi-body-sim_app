@@ -15,18 +15,14 @@
 %% ------------Initialization----------------
 
 % Load the dataset
-% load('./exp/datasetCla_29.mat')
 load('./exp/datasetCla_38.mat')
 
 % Extract data
 time     = intentionData.pouring.data(2).time;
 w_H_b    = intentionData.pouring.data(2).opt_G_H_base{1};
-% jointPos = intentionData.pouring.data(2).opt_sInDeg(1:end-9,:)'*pi/180;
 jointPos = intentionData.pouring.data(2).opt_sInDeg'*pi/180;
 
 % Re-orient the base rotation w.r.t. world frame
-% wRotated_H_w          = [wbc.rotationFromRollPitchYaw([90,0,65]*pi/180), zeros(3,1);
-%                          0  0  0 1];   
 wRotated_H_w          = [wbc.rotationFromRollPitchYaw([0,0,0]*pi/180), zeros(3,1);
                          0  0  0 1];   
 basePosAndRot_rotated = wRotated_H_w*w_H_b;  

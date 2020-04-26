@@ -31,6 +31,3 @@ Config.iDyntreeVisualizer.cameraPos                = [1.5, 0, 0.0];
 Config.iDyntreeVisualizer.cameraTarget             = [0.5 0 0];
 Config.iDyntreeVisualizer.lightDir                 = [-0.5 0 -0.5]/sqrt(2);
 Config.iDyntreeVisualizer.disableViewInertialFrame = true;
-% Config.iDyntreeVisualizer.w_R_b_fixed              = wbc.rotationFromRollPitchYaw([0;0;0]*pi/180);
-% Config.iDyntreeVisualizer.w_H_b_fixed              = [Config.iDyntreeVisualizer.w_R_b_fixed , [0;0;0.5];
-%                                                               0        0        0                 1   ];

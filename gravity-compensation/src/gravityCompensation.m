@@ -25,7 +25,7 @@ run(strcat(['./app/',Config.Simulator.modelFolderName,'/initGravityCompensation.
 
 % load the reduced model
 KinDynModel = iDynTreeWrappers.loadReducedModel(Config.Model.jointList,Config.Model.baseLinkName,Config.Model.modelPath, ...
-                                    Config.Model.modelName,Config.Simulator.wrappersDebugMode); 
+                                                Config.Model.modelName,Config.Simulator.wrappersDebugMode); 
 
 % set the initial robot state 
 iDynTreeWrappers.setRobotState(KinDynModel,Config.initGravComp.jointPos_init,Config.initGravComp.jointVel_init,Config.initGravComp.gravityAcc)
@@ -36,7 +36,7 @@ chi_init = [Config.initGravComp.jointVel_init; Config.initGravComp.jointPos_init
 % create a MAT file where the data to plot/save are stored
 if Config.Simulator.showSimulationResults || Config.Simulator.saveSimulationResults
     
-    Config.Visualization.dataFileName = saveSimulationData(Config.Visualization,Config.Simulator,'init');
+    Config.Visualization.dataFileName = mbs.saveSimulationData(Config.Visualization,Config.Simulator,'init');
 else
     Config.Visualization.dataFileName = [];
 end
@@ -64,8 +64,8 @@ disp('[gravityCompensation]: integration ended.')
 
 % evaluate integration time
 c_out  = clock;
-c_diff = getTimeDiffInSeconds(c_in,c_out); %[s]
-c_diff = sec2hms(c_diff);                  %[h, m, s]
+c_diff = mbs.getTimeDiffInSeconds(c_in,c_out); %[s]
+c_diff = mbs.sec2hms(c_diff);                  %[h, m, s]
 
 disp(['[gravityCompensation]: integration time: ', ....
      num2str(c_diff(1)),' h ',num2str(c_diff(2)),' m ',num2str(c_diff(3)),' s.'])
@@ -92,9 +92,9 @@ end
 if Config.Simulator.showSimulationResults || Config.Simulator.showVisualizer
     
     % open the menu for data plotting and/or for running the iDyntree visualizer
-    openVisualizationMenu(KinDynModel,Config.Visualization,Config.iDyntreeVisualizer, ...
-                          Config.Simulator,Config.SimulationOutput, ...
-                          Config.Simulator.showSimulationResults, Config.Simulator.showVisualizer);
+    mbs.openVisualizationMenu(KinDynModel,Config.Visualization,Config.iDyntreeVisualizer, ...
+                              Config.Simulator,Config.SimulationOutput, ...
+                              Config.Simulator.showSimulationResults, Config.Simulator.showVisualizer);
 end
 
 % delete the current simulation data unless 'saveSimulationResults' is TRUE

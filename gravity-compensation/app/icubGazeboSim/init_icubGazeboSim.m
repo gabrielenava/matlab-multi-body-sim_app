@@ -46,8 +46,8 @@ originalModelName   = 'model.urdf';
 
 % tag to substitute with the local path, and new path
 originalPathString  = 'ABSOLUTE_PATH_TO_MESHES';
-editUrdfModel(pathToOriginalModel, originalModelName, Config.Model.modelPath, ...
-              Config.Model.modelName, originalPathString, [pathToOriginalModel,'meshes']);
+mbs.editUrdfModel(pathToOriginalModel, originalModelName, Config.Model.modelPath, ...
+                  Config.Model.modelName, originalPathString, [pathToOriginalModel,'meshes']);
 
 % specify if the iDyntree simulator is available for this model. It may not
 % be available e.g. in case meshes are required to visualize the model links, 

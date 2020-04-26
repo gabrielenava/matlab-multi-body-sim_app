@@ -86,6 +86,6 @@ function chiDot = forwardDynamicsGravityComp(t,chi,KinDynModel,Config)
             end
         end    
         % update the MAT file with new data
-        [~] = saveSimulationData(Config.Visualization,Config.Simulator,'update');    
+        [~] = mbs.saveSimulationData(Config.Visualization,Config.Simulator,'update');    
     end
 end
