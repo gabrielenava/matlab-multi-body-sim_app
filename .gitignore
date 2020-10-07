@@ -36,7 +36,7 @@ slprj/
 *.slxc
 
 # Matlab binary .mat files
-*.mat
+#*.mat
 
 # Matlab figures
 *.fig
