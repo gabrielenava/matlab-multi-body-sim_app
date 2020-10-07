@@ -4,7 +4,7 @@ Multi-body dynamics simulations developed using the `multi-body-simulator`.
 
 ## Operating system
 
-The code has been developed and tested on Ubuntu 18.04.
+The code has been developed and tested on Ubuntu 18.04.5 with MATLAB 2020a.
 
 ## Dependencies
 
@@ -24,14 +24,18 @@ This repository can be installed in two different ways:
  
 ## Structure of the repo
 
-### Tests and guidelines
+### Testing
 
-- [test-idyntree-wrappers](test-idyntree-wrappers): test the wrappers of the `iDyntree` library.
+- [test-idyntreeWrappers](test-idyntreeWrappers): test the wrappers of the `iDyntree` library.
 
 ### Available simulations
 
-- [gravity-compensation](gravity-compensation)
-- [data-analyzer](data-analyzer)
+- [gravComp-fixed-multiBody](gravComp-fixed-multiBody)
+- [freeFalling-singleBody](freeFalling-singleBody)
+
+### Post processing and data analysis
+
+- [dataAnalyzer](dataAnalyzer)
 
 ## Mantainer
 
