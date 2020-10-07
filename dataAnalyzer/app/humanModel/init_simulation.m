@@ -27,6 +27,10 @@ Config.iDyntreeVisualizer.groundColor        =  [0.5 0.5 0.5];
 Config.iDyntreeVisualizer.groundTransparency =  0.5;
 Config.iDyntreeVisualizer.groundFrame        = ' ';
 
-% create video and frame rate for video recording (fps)
+% create video, frame rate for video recording (fps) and figure bounds 
+% (w.r.t. the base link position)
 Config.Simulator.createVideo                 = false;
-Config.iDyntreeVisualizer.frameRate          = 24;
+Config.iDyntreeVisualizer.frameRate          = 60;
+Config.iDyntreeVisualizer.xtol               = 1;
+Config.iDyntreeVisualizer.ytol               = 1;
+Config.iDyntreeVisualizer.ztol               = 1;

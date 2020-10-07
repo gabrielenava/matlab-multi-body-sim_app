@@ -40,8 +40,12 @@ Config.iDyntreeVisualizer.groundColor        =  [0.5 0.5 0.5];
 Config.iDyntreeVisualizer.groundTransparency =  0.5;
 Config.iDyntreeVisualizer.groundFrame        = ' ';
 
-% frame rate for video recording (fps)
-Config.iDyntreeVisualizer.frameRate          = 24;
+% frame rate for video recording (fps) and figure bounds (w.r.t. the base
+% link position)
+Config.iDyntreeVisualizer.frameRate          = 60;
+Config.iDyntreeVisualizer.xtol               = 0.5;
+Config.iDyntreeVisualizer.ytol               = 0.5;
+Config.iDyntreeVisualizer.ztol               = 0.5;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%% Visualization setup (plots) %%%%%%%%%%%%%%%%%%%%%%%%
