@@ -32,6 +32,7 @@ This repository can be installed in two different ways:
 
 - [gravComp-fixed-multiBody](gravComp-fixed-multiBody)
 - [freeFalling-singleBody](freeFalling-singleBody)
+- [balancing-floating-multiBody](balancing-floating-multiBody)
 
 ### Post processing and data analysis
 
