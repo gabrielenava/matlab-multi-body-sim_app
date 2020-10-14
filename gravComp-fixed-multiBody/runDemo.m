@@ -8,6 +8,9 @@ clc
 clear variables
 close('all','hidden')
 
+% suppress visualization warning message
+warning('off','MATLAB:hg:DiceyTransformMatrix')
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%% USER DEFINED SIMULATION SETUP %%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -103,3 +106,5 @@ end
 % remove local paths
 mbs.configLocalPaths(Config.Simulator,'remove'); 
 disp('[runDemo]: simulation ended.')
+warning('on','MATLAB:hg:DiceyTransformMatrix')
+

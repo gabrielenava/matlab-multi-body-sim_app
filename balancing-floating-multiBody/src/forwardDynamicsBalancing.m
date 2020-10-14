@@ -1,7 +1,7 @@
-function chiDot = forwardDynamicsSingleBody(t,chi,KinDynModel,Config)
+function chiDot = forwardDynamicsBalancing(t,chi,KinDynModel,Config)
 
-    % FORWARDDYNAMICSSINGLEBODY  computes the forward dynamics of a free
-    %                            falling body.
+    % FORWARDDYNAMICSBALANCING computes the forward dynamics of a floating
+    %                          base system with contacts with the environment.
     %
     %                            REQUIRED VARIABLES:
     %
@@ -12,15 +12,14 @@ function chiDot = forwardDynamicsSingleBody(t,chi,KinDynModel,Config)
     %                                      - Visualization: [struct];
     %                                      - integration: [struct];
     %
-    % FORMAT:  chiDot = forwardDynamicsSingleBody(t,chi,KinDynModel,Config);
+    % FORMAT:  chiDot = forwardDynamicsBalancing(t,chi,KinDynModel,Config);
     %
     % INPUTS:  - t: current integration time step;
-    %          - chi: [7+6 x 1] current robot state. Expected format:
-    %                 chi = [basePosQuat; baseVel];
+    %          - chi: [7+6+2*ndof x 1] current robot state;
     %          - KinDynModel: [struct] contains the loaded model and additional info;
     %          - Config: [struct] collects all the configuration parameters;
     %
-    % OUTPUTS: - chiDot: [7+6 x 1] current state derivative.
+    % OUTPUTS: - chiDot: [7+6+2*ndof x 1] current state derivative.
     %
     % Author : Gabriele Nava (gabriele.nava@iit.it)
     % Genova, Nov 2018
@@ -33,61 +32,45 @@ function chiDot = forwardDynamicsSingleBody(t,chi,KinDynModel,Config)
     end
     
     % demux the system state
-    [basePosQuat,baseVel] = wbc.vectorDemux(chi,[7,6]);
+    [basePosQuat,jointPos,baseVel,jointVel] = wbc.vectorDemux(chi,[7,KinDynModel.NDOF,6,KinDynModel.NDOF]);
     w_H_b = wbc.fromPosQuatToTransfMatr(basePosQuat);
     
     % update the current system state
-    iDynTreeWrappers.setRobotState(KinDynModel,w_H_b,[],baseVel,[],Config.Model.gravityAcc);
+    iDynTreeWrappers.setRobotState(KinDynModel,w_H_b,jointPos,baseVel,jointVel,Config.Model.gravityAcc);
     
-    % evaluate the system's dynamics
+    % evaluate system's dynamics quantities
     M          = iDynTreeWrappers.getFreeFloatingMassMatrix(KinDynModel);
-    biasForces = iDynTreeWrappers.generalizedBiasForces(KinDynModel); 
+    biasForces = iDynTreeWrappers.generalizedBiasForces(KinDynModel);
+    B          = [zeros(6,KinDynModel.NDOF);
+                  eye(KinDynModel.NDOF)];
     
-    % evaluate system's base acceleration
-    baseAcc    = M\(Config.Model.extForce - biasForces);
+    % contact Jacobians and derivative
+    J_contacts       = [];
+    JDot_nu_contacts = [];
     
-    posCoM     = iDynTreeWrappers.getCenterOfMassPosition(KinDynModel);
-    posBase    = basePosQuat(1:3);
-     
-%     A_base     = [eye(3), zeros(3);
-%                   wbc.skew(posCoM-basePosQuat(1:3)), eye(3)];
-%     baseAcc    = M\(A_base*Config.Model.extForce-biasForces);
-    
-    baseOmega  = baseVel(4:6);
-    qtDot      = wbc.quaternionDerivative(basePosQuat(4:end),baseOmega,1);
-    
-    % compute centroidal momentum L
-    L          = iDynTreeWrappers.getCentroidalTotalMomentum(KinDynModel); 
-    
-    % compute CMM
-    J_c        = zeros(6);
-    
-    for k = 1:6
+    for k = 1:length(Config.Model.fixedFrames)
         
-       e    = zeros(6);
-       e(k) = 1;       
-       iDynTreeWrappers.setRobotState(KinDynModel,w_H_b,[],e,[],Config.Model.gravityAcc);
-       J_c(:,k) = iDynTreeWrappers.getCentroidalTotalMomentum(KinDynModel);
+        J_contacts       = [J_contacts;
+                            iDynTreeWrappers.getFrameFreeFloatingJacobian(KinDynModel, Config.Model.fixedFrames{k})];
+                  
+        JDot_nu_contacts = [JDot_nu_contacts;
+                            iDynTreeWrappers.getFrameBiasAcc(KinDynModel, Config.Model.fixedFrames{k})];           
     end
-    
-    iDynTreeWrappers.setRobotState(KinDynModel,w_H_b,[],baseVel,[],Config.Model.gravityAcc);
 
-    L_check    = J_c*baseVel; 
-    
-    % calculate LDot
-    rc         = posBase-posCoM;
-    
-    A          = [eye(3), zeros(3);
-                  wbc.skew(rc), eye(3)];
-              
-    LDot       = A*Config.Model.extForce + [M(1,1)*Config.Model.gravityAcc;0;0;0];
-    LDot_check = J_c*baseAcc;
-    
-    L_error    = L - L_check;       %#ok<NASGU>
-    LDot_error = LDot - LDot_check; %#ok<NASGU>
+    % joint torques: simple position control
+    Kp         = 500;
+    tau        = -Kp*(jointPos - Config.Model.jointPos_init);
+
+    % compute the feet forces and moments (rigid contacts, feet fixed)
+    JMinv      = J_contacts/M;
+    JMinvJt    = JMinv*J_contacts';
+    f_contacts = JMinvJt\(JMinv*(biasForces-B*tau)-JDot_nu_contacts);
     
     % compute the state derivative
-    chiDot     = [baseVel(1:3); qtDot; baseAcc];  
+    baseOmega  = baseVel(4:6);
+    qtDot      = wbc.quaternionDerivative(basePosQuat(4:end),baseOmega,1);
+    nuDot      = M\(J_contacts'*f_contacts + B*tau - biasForces);
+    chiDot     = [baseVel(1:3); qtDot; jointVel; nuDot]; 
     
     %% DATA STORAGE - DO NOT EDIT BELOW
     
@@ -104,7 +87,7 @@ function chiDot = forwardDynamicsSingleBody(t,chi,KinDynModel,Config)
                 
                 % unpredictable things may happen if the user tries to save
                 % the "core" variables Config and KinDynModel during integration
-                error('[forwardDynamicsSIngleMass]: "Config" and "KinDynModel" are reserved variables and cannot be saved in the MAT file.')
+                error('[forwardDynamicsBalancing]: "Config" and "KinDynModel" are reserved variables and cannot be saved in the MAT file.')
             end
                 
             % the variables whose name is specified in the "vizVariableList" 

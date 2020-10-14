@@ -17,7 +17,10 @@
 %% ------------Initialization----------------
 clear variables
 close('all','hidden')
-clc 
+clc
+
+% suppress visualization warning message
+warning('off','MATLAB:hg:DiceyTransformMatrix')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%% USER DEFINED SIMULATION SETUP %%%%%%%%%%%%%%%%%%%%%%%%
@@ -97,3 +100,4 @@ else
     end
 end
 disp('[openExistingSimulation]: closing.')
+warning('on','MATLAB:hg:DiceyTransformMatrix')

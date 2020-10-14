@@ -101,4 +101,3 @@ else
 end
 disp('[openExistingSimulation]: closing.')
 warning('on','MATLAB:hg:DiceyTransformMatrix')
-

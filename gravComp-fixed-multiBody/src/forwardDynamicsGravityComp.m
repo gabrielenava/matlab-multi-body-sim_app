@@ -10,6 +10,7 @@ function chiDot = forwardDynamicsGravityComp(t,chi,KinDynModel,Config)
     %
     %                            - Config: [struct] with fields:
     %
+    %                                      - Model: [struct];
     %                                      - Simulator: [struct];
     %                                      - Visualization: [struct]; (partially created here)
     %                                      - integration: [struct];

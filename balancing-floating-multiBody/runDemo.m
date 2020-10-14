@@ -35,11 +35,11 @@ Config.Simulator.savePictures           = true;
 Config.Simulator.wrappersDebugMode      = false;
 
 % name of the folder that contains the default model
-Config.Simulator.defaultModelFolderName = 'singleMass';
+Config.Simulator.defaultModelFolderName = 'icubGazeboSim';
 
 % name of the user-defined script that starts the demo. NOTE: the file has 
 % to be created by the user according to the desired application
-Config.Simulator.mainScriptDemoName     = 'freeFallingSingleBody';
+Config.Simulator.mainScriptDemoName     = 'floatingBaseBalancing';
 
 % names of folders containing external sources. They are the folder located
 % into "external" in the mbs_superbuild. If your simulation do not need
@@ -107,3 +107,4 @@ end
 mbs.configLocalPaths(Config.Simulator,'remove'); 
 disp('[runDemo]: simulation ended.')
 warning('on','MATLAB:hg:DiceyTransformMatrix')
+
