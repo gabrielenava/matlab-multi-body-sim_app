@@ -31,6 +31,7 @@ Config.iDyntreeVisualizer.groundFrame        = ' ';
 % (w.r.t. the base link position)
 Config.Simulator.createVideo                 = false;
 Config.iDyntreeVisualizer.frameRate          = 60;
+Config.iDyntreeVisualizer.videoFormat        = 'avi';
 Config.iDyntreeVisualizer.xtol               = 0.5;
 Config.iDyntreeVisualizer.ytol               = 0.5;
 Config.iDyntreeVisualizer.ztol               = 0.5;
