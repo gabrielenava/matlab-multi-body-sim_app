@@ -19,9 +19,6 @@ build/
 ## We have git for backups!
 ##---------------------------------------------------
 
-# Ignore temporary folder
-TEMP/
-
 # Windows default autosave extension
 *.asv
 

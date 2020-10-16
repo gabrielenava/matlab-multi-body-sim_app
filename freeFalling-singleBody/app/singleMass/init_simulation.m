@@ -17,7 +17,7 @@
 
 % set the integration time step, total time, and the integration options
 Config.integration.tStart      = 0;
-Config.integration.tEnd        = 1;
+Config.integration.tEnd        = 10;
 Config.integration.tStep       = 0.01; 
 Config.integration.showStats   = 'on';
 Config.integration.options     = odeset('RelTol',1e-3,'AbsTol',1e-3,'Stats',Config.integration.showStats);
@@ -39,10 +39,11 @@ Config.iDyntreeVisualizer.groundColor        =  [0.5 0.5 0.5];
 Config.iDyntreeVisualizer.groundTransparency =  0.5;
 Config.iDyntreeVisualizer.groundFrame        = 'l_sole';
 
-% frame rate for video recording (fps) and figure bounds (w.r.t. the base
-% link position)
-Config.iDyntreeVisualizer.frameRate          = 60;
-Config.iDyntreeVisualizer.videoFormat        = 'avi';
+% frame rate for video recording (fps), video format, data processing method
+% and figure bounds (w.r.t. the base link position)
+Config.iDyntreeVisualizer.frameRate          = 30;
+Config.iDyntreeVisualizer.videoFormat        = 'gif';
+Config.iDyntreeVisualizer.dataProcMethod     = 'interpolate';
 Config.iDyntreeVisualizer.xtol               = 0.1;
 Config.iDyntreeVisualizer.ytol               = 0.1;
 Config.iDyntreeVisualizer.ztol               = 0.1;

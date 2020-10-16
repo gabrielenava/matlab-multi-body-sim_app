@@ -27,11 +27,12 @@ Config.iDyntreeVisualizer.groundColor        =  [0.5 0.5 0.5];
 Config.iDyntreeVisualizer.groundTransparency =  0.5;
 Config.iDyntreeVisualizer.groundFrame        = ' ';
 
-% create video, frame rate for video recording (fps) and figure bounds 
-% (w.r.t. the base link position)
+% frame rate for video recording (fps), video format, data processing method
+% and figure bounds (w.r.t. the base link position)
 Config.Simulator.createVideo                 = false;
-Config.iDyntreeVisualizer.frameRate          = 60;
+Config.iDyntreeVisualizer.frameRate          = 30;
 Config.iDyntreeVisualizer.videoFormat        = 'avi';
+Config.iDyntreeVisualizer.dataProcMethod     = 'decimate';
 Config.iDyntreeVisualizer.xtol               = 1;
 Config.iDyntreeVisualizer.ytol               = 1;
 Config.iDyntreeVisualizer.ztol               = 1;

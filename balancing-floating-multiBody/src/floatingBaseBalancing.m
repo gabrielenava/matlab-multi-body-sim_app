@@ -90,6 +90,12 @@ else
     Config.SimulationOutput = [];
 end
 
+if Config.Simulator.showSimulationResults
+    
+    % remove bad data from ode due to negative dt
+    mbs.cleanupDataFromOde(Config.Visualization);
+end
+
 if Config.Simulator.showSimulationResults || Config.Simulator.showVisualizer
     
     % open the menu for data plotting and/or for running the iDyntree visualizer

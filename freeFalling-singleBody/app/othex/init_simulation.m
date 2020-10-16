@@ -39,10 +39,11 @@ Config.iDyntreeVisualizer.groundColor        =  [0.5 0.5 0.5];
 Config.iDyntreeVisualizer.groundTransparency =  0.5;
 Config.iDyntreeVisualizer.groundFrame        = 'l_sole';
 
-% frame rate for video recording (fps) and figure bounds (w.r.t. the base
-% link position)
-Config.iDyntreeVisualizer.frameRate          = 60;
-Config.iDyntreeVisualizer.videoFormat        = 'avi';
+% frame rate for video recording (fps), video format, data processing method
+% and figure bounds (w.r.t. the base link position)
+Config.iDyntreeVisualizer.frameRate          = 30;
+Config.iDyntreeVisualizer.videoFormat        = 'gif';
+Config.iDyntreeVisualizer.dataProcMethod     = 'interpolate';
 Config.iDyntreeVisualizer.xtol               = 0.5;
 Config.iDyntreeVisualizer.ytol               = 0.5;
 Config.iDyntreeVisualizer.ztol               = 0.5;
