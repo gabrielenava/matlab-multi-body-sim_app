@@ -18,13 +18,13 @@
 
 % Load the dataset. WARNING: the dataset should not contain a variable 
 % called 'Config' or it will be overwritten!
-load('./exp/exp1.mat')
+expData  = load('./exp/exp1.mat');
 
 % Get the base pose and the joints positions
-basePos  = basePos_DATA.signals(1).values;
-baseRot  = baseRotRPY_DATA.signals(1).values*pi/180;
-jointPos = jointPos_DATA.signals(1).values*pi/180;
-time     = time_Genom.signals.values;
+basePos  = expData.basePos_DATA.signals(1).values;
+baseRot  = expData.baseRotRPY_DATA.signals(1).values*pi/180;
+jointPos = expData.jointPos_DATA.signals(1).values*pi/180;
+time     = expData.time_Genom.signals.values;
 w_H_b    = zeros(16,size(basePos,1));
 
 % Update the base postion w.r.t. world frame

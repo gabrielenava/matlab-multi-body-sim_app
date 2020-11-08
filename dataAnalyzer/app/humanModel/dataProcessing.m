@@ -18,12 +18,12 @@
 
 % Load the dataset. WARNING: the dataset should not contain a variable 
 % called 'Config' or it will be overwritten!
-load('./exp/exp1.mat')
+expData  = load('./exp/exp1.mat');
 
 % Get the base pose and the joints positions
-time     = time_DATA;
-w_H_b    = w_H_b_DATA;
-jointPos = jointPos_DATA;
+time     = expData.time_DATA;
+w_H_b    = expData.w_H_b_DATA;
+jointPos = expData.jointPos_DATA;
 w_H_b    = w_H_b(:);   
 
 % define a new structure for the iDyntree visualizer containing the

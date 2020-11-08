@@ -16,25 +16,25 @@
     
 %% ------------Initialization----------------
 
-% Load the dataset. WARNING: the dataset should not contain a variable 
-% called 'Config' or it will be overwritten!
-load('./exp/exp2.mat')
+% Load the dataset
+experimentFolder = './exp/';
+experimentName   = mbs.openExperimentsMenu(experimentFolder);
+expData          = load([experimentFolder,experimentName]);
 
 % Get the base pose and the joints positions
-time     = yarp_time.signals.values-yarp_time.signals.values(1); % jointData.time;
+time     = expData.jointData.time;
 jointPos = [];
 w_H_b    = [];
 
-for k = 1:length(jointData.signals)-1
+for k = 1:length(expData.jointData.signals)-1
     
-    jointPos = [jointPos, jointData.signals(k).values*pi/180];
+    jointPos = [jointPos, expData.jointData.signals(k).values*pi/180];
 end
 
 for k = 1:length(time)
     
-    b_R_b_rotated = wbc.rotationFromRollPitchYaw([0;0;pi]);
-    w_R_b         = basePoseData.signals(2).values(:,:,k)*b_R_b_rotated;
-    basePos       = basePoseData.signals(1).values(:,:,k);   
+    w_R_b         = expData.basePoseData.signals(2).values(:,:,k);
+    basePos       = expData.basePoseData.signals(1).values(:,:,k);   
     w_H_b_matr    = [w_R_b, basePos;
                      0   0   0   1];
     w_H_b         = [w_H_b, w_H_b_matr(:)];
